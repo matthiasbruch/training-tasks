@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+        var colors = [ "red", "green", "blue", "yellow", "pink", "brown" ];
+        var lastElement = null;
+
+        function GetRandom(max) {
+            return parseInt(Math.floor(Math.random() * max));
+        }
+
+        function CreateElement() {
+            lastElement = document.createElement("div");
+            lastElement.style.position = "absolute";
+            lastElement.style.top = "10px";
+            lastElement.style.left = GetRandom(800) + "px";
+            lastElement.style.width = "100px";
+            lastElement.style.height = "100px";
+            lastElement.style.backgroundColor = colors[GetRandom(colors.length)];
+            
+            document.body.appendChild(lastElement);
+        }
+
+        function MoveLastElement() {
+            var yPos = lastElement.style.top;
+            var yPosInt = parseInt(yPos);
+
+            yPosInt = yPosInt + 10;
+            lastElement.style.top = yPosInt + "px";
+
+            if (yPosInt > 600) {
+                CreateElement();
+            }
+
+            window.setTimeout(MoveLastElement, 20);
+        }
+
+        CreateElement();
+        MoveLastElement();
+    </script>
+</body>
+</html>

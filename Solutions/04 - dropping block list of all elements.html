@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+        var colors = [ "red", "green", "blue", "yellow", "pink", "brown" ];
+        var allElements = [];
+
+        function GetRandom(max) {
+            return parseInt(Math.floor(Math.random() * max));
+        }
+
+        function CreateElement() {
+            var newElement = document.createElement("div");
+            newElement.style.position = "absolute";
+            newElement.style.top = "10px";
+            newElement.style.left = GetRandom(800) + "px";
+            newElement.style.width = "100px";
+            newElement.style.height = "100px";
+            newElement.style.backgroundColor = colors[GetRandom(colors.length)];
+            
+            allElements.push(newElement);
+            document.body.appendChild(newElement);
+
+            console.log('Existing elements: ' + allElements.length);
+        }
+
+        function MoveLastElement() {
+            var yPos = allElements[allElements.length - 1].style.top;
+            var yPosInt = parseInt(yPos);
+
+            yPosInt = yPosInt + 10;
+            allElements[allElements.length - 1].style.top = yPosInt + "px";
+
+            if (yPosInt > 600) {
+                CreateElement();
+            }
+
+            window.setTimeout(MoveLastElement, 20);
+        }
+
+        CreateElement();
+        MoveLastElement();
+    </script>
+</body>
+</html>

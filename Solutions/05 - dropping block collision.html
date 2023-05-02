@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+        var colors = [ "red", "green", "blue", "yellow", "pink", "brown" ];
+        var allElements = [];
+
+        function GetRandom(max) {
+            return parseInt(Math.floor(Math.random() * max));
+        }
+
+        function CreateElement() {
+            var newElement = document.createElement("div");
+            newElement.style.position = "absolute";
+            newElement.style.top = "10px";
+            newElement.style.left = GetRandom(800) + "px";
+            newElement.style.width = "100px";
+            newElement.style.height = "100px";
+            newElement.style.backgroundColor = colors[GetRandom(colors.length)];
+            
+            allElements.push(newElement);
+            document.body.appendChild(newElement);
+
+            console.log('Existing elements: ' + allElements.length);
+        }
+
+        function MoveLastElement() {
+            var yPos = allElements[allElements.length - 1].style.top;
+            var yPosInt = parseInt(yPos);
+
+            var newYPosInt = yPosInt + 10;
+            allElements[allElements.length - 1].style.top = newYPosInt + "px";
+
+            if (yPosInt > 600 || Collides()) {
+                //allElements[allElements.length - 1].style.top = yPos;
+
+                CreateElement();
+            }
+
+            window.setTimeout(MoveLastElement, 20);
+        }
+
+        function Collides() {
+            if (allElements.length < 2) {
+                return false;
+            }
+
+            var movingElement = allElements[allElements.length - 1];
+            var movingElementLeft = parseInt(movingElement.style.left);
+            var movingElementRight = movingElementLeft + parseInt(movingElement.style.width);
+            var movingElementTop = parseInt(movingElement.style.top);
+            var movingElementBottom = movingElementTop + parseInt(movingElement.style.height);
+
+            for (var i = 0; i < allElements.length - 1; i++) {
+                var elementToCompareAgainst = allElements[i];
+                
+                var elementToCompareAgainstLeft = parseInt(elementToCompareAgainst.style.left);
+                var elementToCompareAgainstRight = elementToCompareAgainstLeft + parseInt(elementToCompareAgainst.style.width);
+                var elementToCompareAgainstTop = parseInt(elementToCompareAgainst.style.top);
+                var elementToCompareAgainstBottom = elementToCompareAgainstTop + parseInt(elementToCompareAgainst.style.height);
+
+                // It's above - cant collide
+                if (movingElementBottom < elementToCompareAgainstTop) {
+                    continue;
+                }
+
+                // It's below - cant collide
+                if (movingElementTop > elementToCompareAgainstBottom) {
+                    continue;
+                }
+
+                // Left corner of moving element collides
+                if (movingElementLeft > elementToCompareAgainstLeft && movingElementLeft < elementToCompareAgainstRight) {
+                    return true;
+                }
+
+                // Right corner of moving element collides
+                if (movingElementRight > elementToCompareAgainstLeft && movingElementRight < elementToCompareAgainstRight) {
+                    return true;
+                }
+
+                // moving element is bigger then element to compare against OR is exactly fitting
+                if (movingElementLeft <= elementToCompareAgainstLeft && movingElementRight >= elementToCompareAgainstRight) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        CreateElement();
+        MoveLastElement();
+    </script>
+</body>
+</html>

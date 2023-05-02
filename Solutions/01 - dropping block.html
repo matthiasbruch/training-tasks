@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+        var lastElement = null;
+
+        function CreateElement() {
+            lastElement = document.createElement("div");
+            lastElement.style.position = "absolute";
+            lastElement.style.top = "10px";
+            lastElement.style.left = "100px";
+            lastElement.style.width = "100px";
+            lastElement.style.height = "100px";
+            lastElement.style.backgroundColor = "red";
+            
+            document.body.appendChild(lastElement);
+        }
+
+        function MoveLastElement() {
+            var yPos = lastElement.style.top;
+            var yPosInt = parseInt(yPos);
+
+            yPosInt = yPosInt + 10;
+            lastElement.style.top = yPosInt + "px";
+
+            window.setTimeout(MoveLastElement, 100);
+        }
+
+        CreateElement();
+        MoveLastElement();
+    </script>
+</body>
+</html>
